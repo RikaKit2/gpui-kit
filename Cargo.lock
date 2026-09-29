@@ -3996,6 +3996,7 @@ dependencies = [
  "gpui-base",
  "gpui-component",
  "gpui-kit-assets",
+ "gpui-kit-dylib",
  "gpui-pre",
  "gpui-pre-platform",
  "gpui-pre-web",
@@ -4014,6 +4015,17 @@ dependencies = [
  "rust-embed",
  "wasm-bindgen",
  "wasm-bindgen-futures",
+]
+
+[[package]]
+name = "gpui-kit-dylib"
+version = "0.7.0"
+dependencies = [
+ "gpui-base",
+ "gpui-component",
+ "gpui-kit-assets",
+ "gpui-pre",
+ "gpui-pre-platform",
 ]
 
 [[package]]

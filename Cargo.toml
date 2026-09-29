@@ -2,6 +2,7 @@
 default-members = ["crates/story"]
 members = [
     "crates/kit",
+    "crates/dylib",
     "crates/base",
     "crates/base/examples/wasm",
     "crates/base/examples/native",
@@ -48,6 +49,7 @@ edition = "2024"
 
 [workspace.dependencies]
 gpui-kit = { path = "crates/kit", version = "0.7.0" }
+gpui-kit-dylib = { path = "crates/dylib", version = "0.7.0" }
 gpui-component = { path = "crates/component", version = "0.7.0" }
 gpui-base = { path = "crates/base", version = "0.7.0" }
 gpui-component-macros = { path = "crates/component-macros", version = "0.7.0" }
