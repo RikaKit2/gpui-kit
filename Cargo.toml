@@ -16,7 +16,7 @@ members = [
     "examples/app_assets",
     "examples/fps_monitor",
     "examples/hello_world",
-    "examples/dynamic_linking",
+    "examples/dynlib",
     "examples/input",
     "examples/editor",
     "examples/brush",

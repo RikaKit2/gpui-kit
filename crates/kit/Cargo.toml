@@ -22,7 +22,7 @@ component = ["dep:gpui-component", "gpui-kit-dylib?/component"]
 # The default icon set for `gpui-component`, `gpui_kit::assets`.
 assets = ["dep:gpui-kit-assets", "gpui-kit-dylib?/assets"]
 # Force dynamic linking, which drastically improves iterative compile times.
-dynamic_linking = ["dep:gpui-kit-dylib"]
+dynlib = ["dep:gpui-kit-dylib"]
 # GPUI's test harness, native-platform rendering, and Kit UI test helpers.
 test-support = ["gpui/test-support", "gpui_platform/test-support", "gpui-base/test-support", "gpui-component?/test-support"]
 # Frame-event instrumentation remains opt-in for performance builds.

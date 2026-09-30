@@ -17,7 +17,7 @@ In your application's `Cargo.toml`:
 gpui-kit = "0.7.0"
 
 [features]
-dev = ["gpui-kit/dynamic_linking"]
+dev = ["gpui-kit/dynlib"]
 ```
 
 Run in development mode:
@@ -26,7 +26,7 @@ Run in development mode:
 cargo run --features dev
 ```
 
-For production/release builds, simply omit the `dev` (or `dynamic_linking`) feature:
+For production/release builds, simply omit the `dev` (or `dynlib`) feature:
 
 ```bash
 cargo build --release
@@ -49,7 +49,7 @@ shared libraries. Copying only the executable is not sufficient.
 Cargo does **not** enable RPATH by default. Its
 [`rpath` profile setting](https://doc.rust-lang.org/cargo/reference/profiles.html#rpath)
 is opt-in on supported platforms, and is not a portable packaging solution.
-Keep `dynamic_linking` disabled for production builds unless you deliberately
+Keep `dynlib` disabled for production builds unless you deliberately
 package all required shared libraries. `--release` alone does not disable features.
 
 ## Platform considerations
@@ -58,7 +58,7 @@ package all required shared libraries. `--release` alone does not disable featur
   execution needs a suitable loader search path or an explicitly configured RPATH.
 - **Windows**: Enable optimized development dependencies as described below.
   Unoptimized builds can exceed the DLL import-library member limit (MSVC
-  `LNK1189`). If your dependency graph still exceeds it, disable `dynamic_linking`.
+  `LNK1189`). If your dependency graph still exceeds it, disable `dynlib`.
 - **WebAssembly**: The dynamic dependency is excluded on Wasm targets.
 
 ### Windows development profile
@@ -77,7 +77,7 @@ optimize its framework packages explicitly too. This repository's Windows smoke
 check uses the matching configuration:
 
 ```sh
-cargo run -p dynamic_linking --features dynamic_linking --config script/dynamic-linking-windows.toml
+cargo run -p dynlib --features dynlib --config script/dynamic-linking-windows.toml
 ```
 
 See Cargo's [profile overrides and generics](https://doc.rust-lang.org/cargo/reference/profiles.html#overrides-and-generics).

@@ -182,8 +182,8 @@ jobs:
           if [[ "${{ matrix.run_on }}" == windows-latest ]]; then
             config+=(--config script/dynamic-linking-windows.toml)
           fi
-          cargo run -p dynamic_linking --locked \
-            --features dynamic_linking "${features[@]}" "${config[@]}"
+          cargo run -p dynlib --locked \
+            --features dynlib "${features[@]}" "${config[@]}"
 
   gpui-shell-core:
     name: GPUI Shell Core

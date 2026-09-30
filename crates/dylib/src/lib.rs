@@ -6,18 +6,18 @@
 //!
 //! # Usage
 //!
-//! Enable the `dynamic_linking` feature on `gpui-kit`:
+//! Enable the `dynlib` feature on `gpui-kit`:
 //!
 //! ```toml
 //! [dependencies]
-//! gpui-kit = { version = "0.7.0", features = ["dynamic_linking"] }
+//! gpui-kit = { version = "0.7.0", features = ["dynlib"] }
 //! ```
 //!
 //! Or via a dev-only feature in your `Cargo.toml`:
 //!
 //! ```toml
 //! [features]
-//! dev = ["gpui-kit/dynamic_linking"]
+//! dev = ["gpui-kit/dynlib"]
 //! ```
 //!
 //! And run:

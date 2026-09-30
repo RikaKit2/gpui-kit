@@ -1,5 +1,5 @@
 [package]
-name = "dynamic_linking"
+name = "dynlib"
 description = "Headless smoke test for development dynamic linking."
 version = "0.7.0"
 publish = false
@@ -13,7 +13,7 @@ gpui-kit = { path = "../../crates/kit", version = "0.7.0", default-features = fa
 default = ["component", "assets"]
 component = ["gpui-kit/component"]
 assets = ["gpui-kit/assets"]
-dynamic_linking = ["gpui-kit/dynamic_linking"]
+dynlib = ["gpui-kit/dynlib"]
 
 [lints]
 workspace = true

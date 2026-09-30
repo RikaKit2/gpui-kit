@@ -20,7 +20,7 @@ def packages(features):
 
 for layers in ((), ("component",), ("assets",), ("component", "assets")):
     static = packages(layers)
-    dynamic = packages(("dynamic_linking", *layers))
+    dynamic = packages(("dynlib", *layers))
     assert "gpui-kit-dylib" not in static, layers
     assert "gpui-kit-dylib" in dynamic, layers
     # Component already depends on assets. Compare against the same static

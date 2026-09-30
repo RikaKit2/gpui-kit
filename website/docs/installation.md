@@ -91,7 +91,7 @@ To try dynamic linking, add an application feature:
 
 ```toml
 [features]
-dev = ["gpui-kit/dynamic_linking"]
+dev = ["gpui-kit/dynlib"]
 ```
 
 Run with `cargo run --features dev`. This can reduce incremental linking time;
@@ -101,7 +101,7 @@ features remain independent, including with `default-features = false`.
 Cargo sets the dynamic library search path for programs it launches. It does not
 enable RPATH by default, so running or copying the executable directly may fail
 without the matching shared libraries and loader configuration. For production,
-omit `dev` and `dynamic_linking`; `--release` does not disable enabled features.
+omit `dev` and `dynlib`; `--release` does not disable enabled features.
 Wasm builds exclude the dynamic dependency.
 
 On Windows, optimize development dependencies to avoid MSVC's DLL import-library
@@ -116,7 +116,7 @@ The first build takes longer; application code remains in the normal development
 profile. The wildcard excludes workspace members, so local Kit framework crates
 need explicit overrides too. This repository provides those in
 `script/dynamic-linking-windows.toml`. If your dependency graph still exceeds the
-limit, disable `dynamic_linking`.
+limit, disable `dynlib`.
 
 ## Improve development runtime performance
 
