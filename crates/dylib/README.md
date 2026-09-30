@@ -32,13 +32,40 @@ For production/release builds, simply omit the `dev` (or `dynamic_linking`) feat
 cargo build --release
 ```
 
-## Platform Considerations
+## Optional layers
 
-- **Linux (`.so`)**: Fully supported. Cargo automatically configures `$ORIGIN/deps` in RPATH, allowing executables to find `libgpui_kit_dylib.so` out of the box.
-- **macOS (`.dylib`)**: Fully supported via `@rpath`. On Apple Silicon, Cargo automatically applies ad-hoc codesigning to dynamic libraries.
-- **Windows (`.dll`)**: In large projects, Windows PE/COFF files have a 16-bit export symbol limit (65,535 symbols). If you encounter `too many exported symbols`, enable optimization for dependencies in your dev profile:
-  ```toml
-  [profile.dev.package."*"]
-  opt-level = 3
-  ```
-- **WebAssembly (Wasm)**: Dynamic linking is unsupported on WASM targets and is automatically disabled via `#[cfg(not(target_family = "wasm"))]`.
+Dynamic linking preserves Kit's feature selection. With `default-features = false`,
+only GPUI and Base are included; enabling Kit's `component` or `assets` feature
+also includes that layer in the shared library.
+
+## Running and distributing binaries
+
+Use `cargo run` or `cargo test` during development. Cargo supplies the
+[dynamic library search path](https://doc.rust-lang.org/cargo/reference/environment-variables.html#dynamic-library-paths)
+for processes it launches. Running the executable directly is different: the
+loader must also locate the Kit dynamic library and the matching Rust toolchain's
+shared libraries. Copying only the executable is not sufficient.
+
+Cargo does **not** enable RPATH by default. Its
+[`rpath` profile setting](https://doc.rust-lang.org/cargo/reference/profiles.html#rpath)
+is opt-in on supported platforms, and is not a portable packaging solution.
+Keep `dynamic_linking` disabled for production builds unless you deliberately
+package all required shared libraries. `--release` alone does not disable features.
+
+## Platform considerations
+
+- **Linux and macOS**: Prefer Cargo-managed execution during development. Direct
+  execution needs a suitable loader search path or an explicitly configured RPATH.
+- **Windows**: Large Rust dynamic libraries can exceed the PE/COFF export-symbol
+  limit. Dependency optimization may reduce the symbol count, but does not
+  guarantee a successful link. If linking fails, disable `dynamic_linking`.
+- **WebAssembly**: The dynamic dependency is excluded on Wasm targets.
+
+## Measuring iteration time
+
+Measure your application on the same machine, toolchain, profile and linker.
+Use separate target directories for static and dynamic builds, warm each with
+`cargo build`, then make the same small application-source edit before each timed
+rebuild. Repeat and compare medians. Do not use a no-op build or `cargo check` as
+a linking benchmark; neither measures an application relink. The first dynamic
+build can be slower, and speedups depend on the application's dependency graph.
