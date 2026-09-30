@@ -56,10 +56,31 @@ package all required shared libraries. `--release` alone does not disable featur
 
 - **Linux and macOS**: Prefer Cargo-managed execution during development. Direct
   execution needs a suitable loader search path or an explicitly configured RPATH.
-- **Windows**: Large Rust dynamic libraries can exceed the PE/COFF export-symbol
-  limit. Dependency optimization may reduce the symbol count, but does not
-  guarantee a successful link. If linking fails, disable `dynamic_linking`.
+- **Windows**: Enable optimized development dependencies as described below.
+  Unoptimized builds can exceed the DLL import-library member limit (MSVC
+  `LNK1189`). If your dependency graph still exceeds it, disable `dynamic_linking`.
 - **WebAssembly**: The dynamic dependency is excluded on Wasm targets.
+
+### Windows development profile
+
+In your application's root `Cargo.toml`, optimize dependencies while leaving
+application code in the normal development profile:
+
+```toml
+[profile.dev.package."*"]
+opt-level = 3
+```
+
+Optimization reduces exported generic instances and takes longer on the first
+build. Cargo's wildcard excludes workspace members. If Kit is in your workspace,
+optimize its framework packages explicitly too. This repository's Windows smoke
+check uses the matching configuration:
+
+```sh
+cargo run -p dynamic_linking --features dynamic_linking --config script/dynamic-linking-windows.toml
+```
+
+See Cargo's [profile overrides and generics](https://doc.rust-lang.org/cargo/reference/profiles.html#overrides-and-generics).
 
 ## Measuring iteration time
 

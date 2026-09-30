@@ -100,8 +100,19 @@ Kit 的 `component` 和 `assets` feature 仍然独立，使用 `default-features
 Cargo 会为其启动的程序设置动态库搜索路径，但默认不启用 RPATH。
 直接运行或复制可执行文件时，如果缺少匹配的共享库或 loader 配置，程序可能无法启动。
 生产构建应省略 `dev` 和 `dynamic_linking`；`--release` 不会关闭已启用的 feature。
-Windows 上的大型动态库可能达到导出符号数量上限；链接失败时请关闭此 feature。
 Wasm 构建会排除动态库依赖。
+
+Windows 上需要优化开发依赖，以避免超过 MSVC 的 DLL 导入库成员数量上限（`LNK1189`）。
+在应用的根 `Cargo.toml` 中添加：
+
+```toml
+[profile.dev.package."*"]
+opt-level = 3
+```
+
+首次构建会更慢，应用代码仍使用普通开发 profile。通配符不包含 workspace 成员，
+因此本地的 Kit 框架 crate 还需要显式覆盖；本仓库的 `script/dynamic-linking-windows.toml`
+提供了这些配置。如果依赖图仍超过限制，请关闭 `dynamic_linking`。
 
 ## 提升开发模式运行性能
 

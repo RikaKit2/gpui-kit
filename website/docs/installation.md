@@ -102,8 +102,21 @@ Cargo sets the dynamic library search path for programs it launches. It does not
 enable RPATH by default, so running or copying the executable directly may fail
 without the matching shared libraries and loader configuration. For production,
 omit `dev` and `dynamic_linking`; `--release` does not disable enabled features.
-On Windows, large dynamic libraries may hit the export-symbol limit; disable
-this feature if linking fails. Wasm builds exclude the dynamic dependency.
+Wasm builds exclude the dynamic dependency.
+
+On Windows, optimize development dependencies to avoid MSVC's DLL import-library
+member limit (`LNK1189`). Add this to the application's root `Cargo.toml`:
+
+```toml
+[profile.dev.package."*"]
+opt-level = 3
+```
+
+The first build takes longer; application code remains in the normal development
+profile. The wildcard excludes workspace members, so local Kit framework crates
+need explicit overrides too. This repository provides those in
+`script/dynamic-linking-windows.toml`. If your dependency graph still exceeds the
+limit, disable `dynamic_linking`.
 
 ## Improve development runtime performance
 

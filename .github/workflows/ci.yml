@@ -178,8 +178,12 @@ jobs:
           if [[ "${{ matrix.layers }}" == base ]]; then
             features+=(--no-default-features)
           fi
+          config=()
+          if [[ "${{ matrix.run_on }}" == windows-latest ]]; then
+            config+=(--config script/dynamic-linking-windows.toml)
+          fi
           cargo run -p dynamic_linking --locked \
-            --features dynamic_linking "${features[@]}"
+            --features dynamic_linking "${features[@]}" "${config[@]}"
 
   gpui-shell-core:
     name: GPUI Shell Core
