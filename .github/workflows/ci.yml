@@ -178,7 +178,7 @@ jobs:
           if [[ "${{ matrix.layers }}" == base ]]; then
             features+=(--no-default-features)
           fi
-          cargo run -p gpui-kit --example dynamic_linking --locked \
+          cargo run -p dynamic_linking --locked \
             --features dynamic_linking "${features[@]}"
 
   gpui-shell-core:

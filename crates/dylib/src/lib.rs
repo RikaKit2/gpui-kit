@@ -46,3 +46,9 @@ use gpui_kit_assets as _;
 #[cfg(not(any(target_os = "ios", target_os = "android")))]
 #[allow(unused_imports, clippy::single_component_path_imports)]
 use gpui_platform as _;
+
+// The dynamic library retains GPUI's io-surface symbols even when the
+// application does not use them. Resolve them at this link boundary.
+#[cfg(target_os = "macos")]
+#[link(name = "IOSurface", kind = "framework")]
+unsafe extern "C" {}

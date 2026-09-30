@@ -162,7 +162,3 @@ required-features = ["assets", "test-support", "component"]
 [[test]]
 name = "touch_selection"
 required-features = ["test-support", "component"]
-
-[[example]]
-name = "dynamic_linking"
-required-features = ["dynamic_linking"]
